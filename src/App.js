@@ -1,22 +1,36 @@
 import React from 'react';
-import Header from './components/Header';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { AnimatePresence } from 'framer-motion';
 import Hero from './components/Hero';
 import Projects from './components/Projects';
-import About from './components/About';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
+import TransitionWrapper from './components/TransitionWrapper';
 
-function App() {
+const App = () => {
+  const location = useLocation();
   return (
-    <div>
-      {/* <Header /> */}
-      <Hero />
-      {/* <Projects />
-      <About />
-      <Contact />
-      <Footer /> */}
-    </div>
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route
+          path="/"
+          element={
+            <Hero><TransitionWrapper/></Hero>
+          }
+        />
+        <Route
+          path="/projects"
+          element={
+            <Projects><TransitionWrapper/></Projects>
+          }
+        />
+      </Routes>
+    </AnimatePresence>
   );
-}
+};
 
-export default App;
+const AppWrapper = () => (
+  <Router>
+    <App />
+  </Router>
+);
+
+export default AppWrapper;
